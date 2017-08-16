@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  
+    <script src="https://www.google.com/jsapi"></script>
+
+    
+    <script>
+       
+        var public_key = 'dZ4EVmE8yGCRGx5XRX1W';
+
+        var jsonData = $.ajax({
+          url: 'http://localhost:5984/copaconfederaciones/_all_docs/?limit=100&include_docs=true',
+          //url: 'http://127.0.0.1:5984/ju/_all_docs?include_docs=true&conflicts=true',
+          data: {page: 1},
+          dataType: 'json',
+        }).done(function (results) {
+
+	     var count=results.total_rows;
+         var ciudad = "Santiago";
+         
+          for(var i=0;i<count; i++){
+          	
+          	var user=results.rows[i].doc.user.screen_name;
+            var name=results.rows[i].doc.user.name;
+          	var texttweet=results.rows[i].doc.text;
+            var fecha=results.rows[i].doc.created_at;
+            var foto=results.rows[i].doc.user.profile_image_url_https;
+            var gps=results.rows[i].doc.user.geo_enabled;
+            var fondo=results.rows[i].doc.user.profile_background_image_url_https;
+            var zona=results.rows[i].doc.user.time_zone;
+            var scren=results.rows[i].doc.user.screen_name;
+           // var foll=results.rows[i].doc.user.followers_count; 
+			console.log(user);
+			console.log(texttweet);
+              if(zona==ciudad){
+                document.getElementById("tweet").innerHTML += "<tr>"+
+                                                        "<td><img src="+foto+"></td>"+
+                                                        "<td>"+user+"<br>"+name+"</td>"+
+                                                        "<td background="+fondo+">"+texttweet+"</td>"+
+                                                        "<td>"+zona+"</td>"+
+                                                        
+                                                    "</tr>";	
+            }
+              }
+      });
+        
+    </script>
+  </head>
+  <body>
+<div class="container">
+<br>
+    <center><h3>Funciones Map Reduce</h3></center>
+    <center><h4>Vista 1</h4></center>
+    <div class="vistas">
+    </div>
+    <br>
+    <a href="index.html">Atras</a>
+<table class="table table-bordered" > 
+<thead>
+      <tr>
+        <th>Foto</th> 
+        <th>Usuario</th>
+        <th>Tweet</th>
+        <th>Ciudad</th>
+      </tr>
+    <tbody id="tweet">
+        
+    </tbody>
+  </table>
+</div>
+
+  </body>
+</html>
